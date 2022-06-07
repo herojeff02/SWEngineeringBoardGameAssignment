@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,18 +7,19 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class MapBuilder {
-    String fileName;
-    ArrayList<MapCellBase> mapCellsArrayList;
-    MapCellBase[][] mapCells2d;
-    int width, height;
+    private final String fileName;
+    private final ArrayList<MapCellBase> mapCellsArrayList;
+    private final MapCellBase[][] mapCells2d;
+    private int mapWidth, mapHeight;
+    private int mapLength;
     public MapBuilder(String fileName) {
         this.fileName = fileName;
         mapCellsArrayList = parse();
         assignMapCellsToArrayList();
-        mapCells2d = new MapCell[height][width];
+        mapCells2d = new MapCellBase[mapHeight][mapWidth];
         assignMapCellsTo2d();
         createBridgePair();
-        testPrint();
+//        testPrint();
     }
 
     private void assignMapCellsTo2d() {
@@ -56,8 +56,8 @@ public class MapBuilder {
             minCol = min(minCol, a.getCol());
         }
 
-        height = maxRow - minRow + 1;
-        width = maxCol - minCol + 1;
+        mapHeight = maxRow - minRow + 1;
+        mapWidth = maxCol - minCol + 1;
 
         mapPositionOffset(minRow, minCol);
     }
@@ -65,18 +65,15 @@ public class MapBuilder {
     private void createBridgePair(){
         ArrayList<MapBridgeCell> bridgeStart = new ArrayList<>();
         for (MapCellBase start : mapCellsArrayList) {
-            if(start instanceof MapBridgeCell){
-                if(start.getCellType().equals("B")){
-                    System.out.println(start.getCellType() + ", " + start.getGeneralCellType());
-                    bridgeStart.add((MapBridgeCell)start);
-                }
-                else if(start.getCellType().equals("b")){
-                    for(MapBridgeCell arrival : bridgeStart){
-                        if(arrival.getRow() == start.getRow() && arrival.getCol()+2 == start.getCol()){
-                            arrival.setPair((MapBridgeCell)start);
-                            ((MapBridgeCell) start).setPair(arrival);
-                            bridgeStart.remove(start);
-                        }
+            if(start.getCellType().equals("B")){
+                bridgeStart.add((MapBridgeCell)start);
+            }
+            else if(start.getCellType().equals("b")){
+                for(MapBridgeCell arrival : bridgeStart){
+                    if(arrival.getRow() == start.getRow() && arrival.getCol()+2 == start.getCol()){
+                        arrival.setPair((MapBridgeCell)start);
+                        ((MapBridgeCell) start).setPair(arrival);
+                        bridgeStart.remove(start);
                     }
                 }
             }
@@ -108,7 +105,7 @@ public class MapBuilder {
                     txt2 = parseConverter(txt.charAt(2));
                 }
 
-                if(txt0.equals("GB")){
+                if(txt0.equalsIgnoreCase("b")){
                     mapCells.add(new MapBridgeCell(txt0, txt1, txt2, currLine));
                 }
                 else {
@@ -116,6 +113,7 @@ public class MapBuilder {
                 }
                 currLine++;
             }
+            mapLength = currLine;
         } catch (FileNotFoundException e) {
             System.out.println("Unknown File");
             System.exit(1);
@@ -149,8 +147,8 @@ public class MapBuilder {
     }
 
     private void testPrint(){
-        for(int i=0;i<height;i++){
-            for(int j=0;j<width;j++){
+        for(int i = 0; i< mapHeight; i++){
+            for(int j = 0; j< mapWidth; j++){
                 if(mapCells2d[i][j] != null) {
                     System.out.printf("%3s", mapCells2d[i][j].getCellType());
                 }

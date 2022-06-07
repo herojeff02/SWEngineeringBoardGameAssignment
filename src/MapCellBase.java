@@ -20,7 +20,7 @@ public class MapCellBase {
 
     String cellType;
     String prevCellPos, nextCellPos;
-    int mapIndex;
+    private int mapIndex;
     private int row, col;
     public MapCellBase(String cellType, String prevCellPos, String nextCellPos, int mapIndex){
         this.cellType = cellType;
@@ -54,5 +54,9 @@ public class MapCellBase {
     }
     public int getCol() {
         return col;
+    }
+
+    public int getMapIndex() {
+        return mapIndex;
     }
 }
