@@ -8,12 +8,17 @@ import static java.lang.Math.min;
 
 public class MapBuilder {
     private final String fileName;
+    File file;
     private final ArrayList<MapCellBase> mapCellsArrayList;
     private final MapCellBase[][] mapCells2d;
     private int mapWidth, mapHeight;
     private int mapLength;
-    public MapBuilder(String fileName) {
+    public MapBuilder(String fileName) throws FileNotFoundException {
         this.fileName = fileName;
+        file = new File(fileName);
+        if(!file.exists()){
+            throw new FileNotFoundException("Map file path invalid");
+        }
         mapCellsArrayList = parse();
         assignMapCellsToArrayList();
         mapCells2d = new MapCellBase[mapHeight][mapWidth];
@@ -82,7 +87,6 @@ public class MapBuilder {
 
     private ArrayList<MapCellBase> parse(){
         ArrayList<MapCellBase> mapCells = new ArrayList<>();
-        File file = new File(fileName);
         try {
             Scanner scan = new Scanner(file);
             int currLine = 0;
@@ -146,7 +150,7 @@ public class MapBuilder {
         return mapCells2d;
     }
 
-    private void testPrint(){
+    public void testPrint(){
         for(int i = 0; i< mapHeight; i++){
             for(int j = 0; j< mapWidth; j++){
                 if(mapCells2d[i][j] != null) {

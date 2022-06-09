@@ -1,11 +1,12 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class RuleBook {
-    ArrayList<Player> players;
-    ArrayList<Player> finishedPlayers;
-    MapBuilder mapBuilder;
+    private ArrayList<Player> players;
+    private ArrayList<Player> finishedPlayers;
+    public MapBuilder mapBuilder;
 
-    public RuleBook(int playerCount, String mapFilePath){
+    public RuleBook(int playerCount, String mapFilePath) throws FileNotFoundException {
         players = new ArrayList<>();
         finishedPlayers = new ArrayList<>();
         for(int i=0;i<playerCount;i++){
@@ -14,16 +15,12 @@ public class RuleBook {
         mapBuilder = new MapBuilder(mapFilePath);
     }
 
-    public static int diceRoll(){
-        return (int) (Math.random()*6 + 1);
-    }
-
     public boolean isFreeMovable() {
         return finishedPlayers.size() <= 0;
     }
 
     public boolean move(int playerIndex, String moveSet, int diceResult){
-        Player player = players.get(playerIndex);
+        Player player = getPlayer(playerIndex);
         int mvmtRange = player.getMvmtAbs(diceResult);
         char[] moves = moveSet.toUpperCase().toCharArray();
 
@@ -36,12 +33,12 @@ public class RuleBook {
         int cellIndex = player.getCurrPos();
         for(int i=0;i<=mvmtRange && i<moves.length;i++){
             String move = String.valueOf(moves[i]);
-            MapCellBase cell = mapBuilder.getMapArrayList().get(cellIndex);
+            MapCellBase cell = getCell(cellIndex);
 
             boolean prevPossible = isFreeMovable();
             boolean nextEqual = cell.nextCellPos.contains(move);
             boolean prevEqual = cell.prevCellPos.contains(move);
-            boolean isBridgeStart = cell.getCellType().equalsIgnoreCase("B");
+            boolean isBridgeStart = cell.getCellType().equals("B");
             boolean isNextBridge = false;
             if(cell.getCellType().equals("B")){
                 if(move.equals("R")){
@@ -55,12 +52,16 @@ public class RuleBook {
             }
 
             // not freely movable, and next cell is invalid
-            if(!prevPossible && !nextEqual && !isNextBridge){
-                return false;
+            if(!prevPossible){
+                if(!nextEqual && !isNextBridge){
+                    return false;
+                }
             }
-            // freely movable, but next/prev cell are both
-            if((prevPossible && !prevEqual && !nextEqual) && (isBridgeStart && !isNextBridge)){
-                return false;
+            // freely movable, but next/prev cell are both invalid
+            else{
+                if(!prevEqual && !nextEqual && !isBridgeStart && !isNextBridge){
+                    return false;
+                }
             }
 
             // next cell
@@ -82,7 +83,7 @@ public class RuleBook {
         player.setCurrPos(cellIndex);
 
         // award player tool points
-        MapCellBase arrivalCell = mapBuilder.getMapArrayList().get(cellIndex);
+        MapCellBase arrivalCell = getCell(cellIndex);
         if(arrivalCell.getGeneralCellType().equals("GT")){
             player.addToolScore(arrivalCell.getCellType());
             ((MapCell)arrivalCell).removeTool();
@@ -92,5 +93,73 @@ public class RuleBook {
             finishedPlayers.add(player);
         }
         return true;
+    }
+
+    public Player getPlayer(int playerIndex){
+        int index;
+        if(playerIndex > players.size()){
+            index = players.size() - 1;
+        }
+        else index = Math.max(playerIndex, 0);
+        return players.get(index);
+    }
+
+    public ArrayList<Player> getPlayerList(){
+        return players;
+    }
+
+    public boolean movePlayerToFinished(int playerIndex){
+        try {
+            finishedPlayers.add(getPlayer(playerIndex));
+            players.remove(playerIndex);
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+
+    public int getPlayerCellIndex(int playerIndex){
+        return getPlayer(playerIndex).getCurrPos();
+    }
+
+    public MapCellBase getCell(int cellIndex){
+        return getMapArray().get(cellIndex);
+    }
+    public boolean playerDidLandOnToolCell(int playerIndex){
+        int cellIndex = getPlayer(playerIndex).getCurrPos();
+        MapCellBase cell = getCell(cellIndex);
+        return cell.getGeneralCellType().equals("GT");
+    }
+    public static int diceRoll(){
+        return (int) (Math.random()*6 + 1);
+    }
+
+    public boolean playerDidFinish(int playerIndex){
+        int cellIndex = getPlayer(playerIndex).getCurrPos();
+        MapCellBase cell = getCell(cellIndex);
+        return cell.getCellType().equals("SE");
+    }
+
+    public int getNextUnfinishedPlayerIndex(int currentPlayer){
+        for(int i = 1 ; i<players.size() ; i++){
+            int index = Math.floorMod(i+currentPlayer, players.size());
+            if(!finishedPlayers.contains(getPlayer(index))){
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    public ArrayList<MapCellBase> getMapArray(){
+        return mapBuilder.getMapArrayList();
+    }
+
+    public MapCellBase[][] getMap2d(){
+        return mapBuilder.getMap2d();
+    }
+
+    public boolean gameShouldEnd(){
+        return players.size() <= finishedPlayers.size() + 1;
     }
 }

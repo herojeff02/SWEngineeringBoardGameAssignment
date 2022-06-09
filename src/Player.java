@@ -3,6 +3,7 @@ public class Player {
     private int score;
     private final int playerId;
     private int currPosition;
+    public boolean isNowPlaying = true;
 
     public Player(int playerId){
         this.bridgeCard = 0;
@@ -48,5 +49,13 @@ public class Player {
 
     public void setCurrPos(int cellIndex) {
         this.currPosition = cellIndex;
+    }
+
+    public int getPlayerId(){
+        return playerId;
+    }
+
+    public int getBridgeCard() {
+        return bridgeCard;
     }
 }
