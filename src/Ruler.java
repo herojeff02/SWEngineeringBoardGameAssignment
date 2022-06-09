@@ -1,5 +1,5 @@
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Ruler {
     Player currentPlayer;
@@ -13,12 +13,15 @@ public class Ruler {
             throw new IllegalArgumentException("Number of players must be 2, 3, or 4.");
         }
         this.playerCount = playerCount;
-        ArrayList<Player> playerList = ruleBook.getPlayerList();
         currentPlayer = ruleBook.getPlayer(0);
     }
 
     public boolean inputPlayerMoveSet(int diceRoll, String moveSet){
         // todo : return new Position or Error
+        if(moveSet.equals("")){
+            currentPlayer.deductBridgeCard();
+            return true;
+        }
         return ruleBook.move(currentPlayer.getPlayerId(), moveSet, diceRoll);
     }
 
@@ -43,5 +46,11 @@ public class Ruler {
 
     public int currentPlayerMvmtMax(int diceResult){
         return currentPlayer.getMvmtAbs(diceResult);
+    }
+
+    public ArrayList<Player> getScoreSortedPlayers() {
+        ArrayList<Player> result = new ArrayList<>(ruleBook.getPlayerList());
+        result.sort(Comparator.comparingInt(Player::getScore).reversed());
+        return result;
     }
 }

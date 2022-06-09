@@ -77,6 +77,11 @@ public class RuleBook {
                 cellIndex = ((MapBridgeCell)cell).getPair().getMapIndex();
                 player.addBridgeCard();
             }
+
+            if(getCell(cellIndex).getCellType().equals("SE")){
+                playerFinished(player);
+                return true;
+            }
         }
 
         // moved successfully -> set position of player
@@ -87,10 +92,6 @@ public class RuleBook {
         if(arrivalCell.getGeneralCellType().equals("GT")){
             player.addToolScore(arrivalCell.getCellType());
             ((MapCell)arrivalCell).removeTool();
-        }
-        else if(arrivalCell.getCellType().equals("SE")){
-            player.addFinishScore(finishedPlayers.size());
-            finishedPlayers.add(player);
         }
         return true;
     }
@@ -108,15 +109,9 @@ public class RuleBook {
         return players;
     }
 
-    public boolean movePlayerToFinished(int playerIndex){
-        try {
-            finishedPlayers.add(getPlayer(playerIndex));
-            players.remove(playerIndex);
-            return true;
-        }
-        catch (Exception e){
-            return false;
-        }
+    private void playerFinished(Player player){
+        player.addFinishScore(finishedPlayers.size());
+        finishedPlayers.add(player);
     }
 
     public int getPlayerCellIndex(int playerIndex){

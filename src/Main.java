@@ -30,9 +30,9 @@ public class Main {
                 // moveset length check
                 input = "";
                 while(!(input.length() == ruler.currentPlayerMvmtMax(diceResult))){
+                    System.out.println("input moveset : ");
                     input = scanner.nextLine();
-                    if(input.length() == 0 || input.equalsIgnoreCase("stay")){
-                        ruler.currentPlayer.deductBridgeCard();
+                    if(input.length() == 0){
                         break;
                     }
                 }
@@ -44,7 +44,7 @@ public class Main {
         }
 
         //game result stage
-
+        ruler.getScoreSortedPlayers();
 
         System.out.println("end");
     }
