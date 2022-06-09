@@ -1,13 +1,12 @@
 public class Player {
     private int bridgeCard;
-    private int score;
+    private String toolCardString;
     private final int playerId;
     private int currPosition;
-    public boolean isNowPlaying = true;
 
     public Player(int playerId){
         this.bridgeCard = 0;
-        this.score = 0;
+        this.toolCardString = "";
         this.playerId = playerId;
         this.currPosition = 0;
     }
@@ -25,22 +24,31 @@ public class Player {
         }
     }
     public void addToolScore(String cellType) {
-        switch (cellType) {
-            case "P" -> score += 1;
-            case "H" -> score += 2;
-            case "S" -> score += 3;
-        }
+        toolCardString += cellType;
+
     }
     public void addFinishScore(int ranking){
         switch (ranking){
-            case 0 -> score += 7;
-            case 1 -> score += 3;
-            case 2 -> score += 1;
+            case 0 -> toolCardString += 7;
+            case 1 -> toolCardString += 3;
+            case 2 -> toolCardString += 1;
         }
     }
 
-    public int getScore(){
+    public int getToolCardScore(){
+        int score = 0;
+        for(int i = 0; i< toolCardString.length(); i++){
+            switch (toolCardString.toCharArray()[i]) {
+                case 'P' -> score += 1;
+                case 'H' -> score += 2;
+                case 'S' -> score += 3;
+            }
+        }
         return score;
+    }
+
+    public String getToolCardString(){
+        return toolCardString;
     }
 
     public int getCurrPos() {

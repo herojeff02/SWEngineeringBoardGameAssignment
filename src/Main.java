@@ -1,9 +1,53 @@
 import java.io.FileNotFoundException;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        String[] preRequisiteResult = new UIPrerequisiteDialog("default.map").run();
+
+
+        int playerCount = Integer.parseInt(preRequisiteResult[1]);
+        Ruler ruler = null;
+        try {
+            ruler = new Ruler(playerCount, preRequisiteResult[0]);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            System.exit(-1);
+        }
+        new UIResultDialog(ruler.ruleBook.getPlayerList()).run();
+
+
+
+        //play stage
+
+        while(!ruler.gameShouldEnd()){
+            int diceResult = RuleBook.diceRoll();
+            System.out.println("\nplayerid, dice, bridgeCard : " + ruler.currentPlayer.getPlayerId() + " " + diceResult + " " + ruler.currentPlayer.getBridgeCard());
+            String input = "";
+            boolean moveResult = false;
+            while(!moveResult){
+                // moveset length check
+                input = "";
+                while(!(input.length() == ruler.currentPlayerMvmtMax(diceResult))){
+                    System.out.println("input moveset : ");
+                    if(input.length() == 0){
+                        break;
+                    }
+                }
+                // valid move check
+                moveResult = ruler.inputPlayerMoveSet(diceResult, input.toLowerCase());
+            }
+            System.out.println("current position " + ruler.currentPlayer.getCurrPos());
+            ruler.nextPlayer();
+        }
+
+        //game result stage
+        ruler.getScoreSortedPlayers();
+
+        System.out.println("end");
+    }
+
+    public void consoleTest(){
         //param stage
         Ruler ruler = null;
         int playerCount = 0;

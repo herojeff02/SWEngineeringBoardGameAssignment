@@ -88,11 +88,12 @@ public class RuleBook {
         player.setCurrPos(cellIndex);
 
         // award player tool points
-        MapCellBase arrivalCell = getCell(cellIndex);
-        if(arrivalCell.getGeneralCellType().equals("GT")){
-            player.addToolScore(arrivalCell.getCellType());
-            ((MapCell)arrivalCell).removeTool();
-        }
+        playerDidLandOnToolCell(playerIndex);
+//        MapCellBase arrivalCell = getCell(cellIndex);
+//        if(arrivalCell.getGeneralCellType().equals("GT")){
+//            player.addToolScore(arrivalCell.getCellType());
+//            ((MapCell)arrivalCell).removeTool();
+//        }
         return true;
     }
 
@@ -123,8 +124,15 @@ public class RuleBook {
     }
     public boolean playerDidLandOnToolCell(int playerIndex){
         int cellIndex = getPlayer(playerIndex).getCurrPos();
-        MapCellBase cell = getCell(cellIndex);
-        return cell.getGeneralCellType().equals("GT");
+        MapCellBase arrivalCell = getCell(cellIndex);
+        if(arrivalCell.getGeneralCellType().equals("GT")){
+            getPlayer(playerIndex).addToolScore(arrivalCell.getCellType());
+            ((MapCell)arrivalCell).removeTool();
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     public static int diceRoll(){
         return (int) (Math.random()*6 + 1);

@@ -39,6 +39,9 @@ public class Ruler {
     public ArrayList<MapCellBase> getMapArray(){
         return ruleBook.getMapArray();
     }
+    public MapCellBase[][] getMap2d(){
+        return ruleBook.getMap2d();
+    }
 
     public boolean gameShouldEnd(){
         return ruleBook.gameShouldEnd();
@@ -50,7 +53,7 @@ public class Ruler {
 
     public ArrayList<Player> getScoreSortedPlayers() {
         ArrayList<Player> result = new ArrayList<>(ruleBook.getPlayerList());
-        result.sort(Comparator.comparingInt(Player::getScore).reversed());
+        result.sort(Comparator.comparingInt(Player::getToolCardScore).reversed());
         return result;
     }
 }
