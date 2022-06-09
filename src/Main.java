@@ -3,8 +3,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        //File path and player count
         String[] preRequisiteResult = new UIPrerequisiteDialog("default.map").run();
-
 
         int playerCount = Integer.parseInt(preRequisiteResult[1]);
         Ruler ruler = null;
@@ -14,13 +14,16 @@ public class Main {
             System.out.println(e.getMessage());
             System.exit(-1);
         }
-        new UIResultDialog(ruler.ruleBook.getPlayerList()).run();
 
 
 
         //play stage
+        UIModel uiModel = new UIModel(ruler);
+        UIViewController uiViewController = new UIViewController(uiModel);
+        uiViewController.showGameFrame();
 
-        while(!ruler.gameShouldEnd()){
+
+        while(ruler.gameShouldEnd()){
             int diceResult = RuleBook.diceRoll();
             System.out.println("\nplayerid, dice, bridgeCard : " + ruler.currentPlayer.getPlayerId() + " " + diceResult + " " + ruler.currentPlayer.getBridgeCard());
             String input = "";
@@ -41,10 +44,11 @@ public class Main {
             ruler.nextPlayer();
         }
 
-        //game result stage
-        ruler.getScoreSortedPlayers();
 
-        System.out.println("end");
+
+
+        //Print game result
+        new UIResultDialog(ruler.getScoreSortedPlayers()).run();
     }
 
     public void consoleTest(){

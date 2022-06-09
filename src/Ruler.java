@@ -26,7 +26,7 @@ public class Ruler {
     }
 
     public boolean nextPlayer() {
-        ArrayList<Player> playerList = ruleBook.getPlayerList();
+        ArrayList<Player> playerList = getPlayerList();
         int nextPlayerIndex = ruleBook.getNextUnfinishedPlayerIndex(playerList.indexOf(currentPlayer));
         if (nextPlayerIndex == -1) {
             return false;
@@ -36,11 +36,19 @@ public class Ruler {
         }
     }
 
+    public ArrayList<Player> getPlayerList(){
+        return ruleBook.getPlayerList();
+    }
+
     public ArrayList<MapCellBase> getMapArray(){
         return ruleBook.getMapArray();
     }
     public MapCellBase[][] getMap2d(){
         return ruleBook.getMap2d();
+    }
+
+    public int[] getMap2dDimension(){
+        return new int[]{ruleBook.mapBuilder.mapHeight, ruleBook.mapBuilder.mapWidth};
     }
 
     public boolean gameShouldEnd(){
@@ -52,7 +60,7 @@ public class Ruler {
     }
 
     public ArrayList<Player> getScoreSortedPlayers() {
-        ArrayList<Player> result = new ArrayList<>(ruleBook.getPlayerList());
+        ArrayList<Player> result = new ArrayList<>(getPlayerList());
         result.sort(Comparator.comparingInt(Player::getToolCardScore).reversed());
         return result;
     }

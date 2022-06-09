@@ -11,7 +11,7 @@ public class MapBuilder {
     File file;
     private final ArrayList<MapCellBase> mapCellsArrayList;
     private final MapCellBase[][] mapCells2d;
-    private int mapWidth, mapHeight;
+    public int mapWidth, mapHeight;
     private int mapLength;
     public MapBuilder(String fileName) throws FileNotFoundException {
         this.fileName = fileName;
