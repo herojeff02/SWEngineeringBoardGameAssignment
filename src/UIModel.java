@@ -17,16 +17,13 @@ public class UIModel {
             int P = cardString.split("P", -1).length-1;
             int H = cardString.split("H", -1).length-1;
             int S = cardString.split("S", -1).length-1;
+            int total = player.getScore();
             String line = "Player "+id+"\n"+bridgeCard+" * Bridge Card\n";
-            if(P!=0){
-                line += P + "xP\n";
-            }
-            if(H!=0){
-                line += H + "xH\n";
-            }
-            if(S!=0){
-                line += S + "xS";
-            }
+            line += P + " * P\n";
+            line += H + " * H\n";
+            line += S + " * S\n";
+            line += total + " = total";
+
             result.append(line).append("\n\n");
         }
         return result.toString();

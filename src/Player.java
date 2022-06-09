@@ -1,14 +1,12 @@
 public class Player {
-    private int bridgeCard;
-    private String toolCardString;
+    private int bridgeCard = 0;
+    private String toolCardString = "";
+    private int finishScore = 0;
     private final int playerId;
-    private int currPosition;
+    private int currPosition = 58;
 
     public Player(int playerId){
-        this.bridgeCard = 0;
-        this.toolCardString = "";
         this.playerId = playerId;
-        this.currPosition = 0;
     }
 
     public int getMvmtAbs(int diceResult){
@@ -29,13 +27,13 @@ public class Player {
     }
     public void addFinishScore(int ranking){
         switch (ranking){
-            case 0 -> toolCardString += 7;
-            case 1 -> toolCardString += 3;
-            case 2 -> toolCardString += 1;
+            case 0 -> finishScore = 7;
+            case 1 -> finishScore = 3;
+            case 2 -> finishScore = 1;
         }
     }
 
-    public int getToolCardScore(){
+    public int getScore(){
         int score = 0;
         for(int i = 0; i< toolCardString.length(); i++){
             switch (toolCardString.toCharArray()[i]) {
@@ -44,6 +42,7 @@ public class Player {
                 case 'S' -> score += 3;
             }
         }
+        score += finishScore;
         return score;
     }
 

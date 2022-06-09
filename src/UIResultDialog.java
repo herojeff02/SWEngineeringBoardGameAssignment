@@ -28,10 +28,10 @@ public class UIResultDialog extends JDialog{
 
     public String resultStringBuilder(Player player, int rank){
         if(rank == 0){
-            return "Player "+ player.getPlayerId() + " won with " + player.getToolCardScore() + " points!\n\n";
+            return "Player "+ player.getPlayerId() + " won with " + player.getScore() + " points!\n\n";
         }
         else{
-            return "Player "+ player.getPlayerId() + " came " +(rank+1)+ " place with "+ player.getToolCardScore() + " points!\n";
+            return "Player "+ player.getPlayerId() + " came " +(rank+1)+ " place with "+ player.getScore() + " points!\n";
         }
     }
 

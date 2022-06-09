@@ -73,7 +73,7 @@ public class RuleBook {
                 cellIndex -= 1;
             }
             // cross bridge
-            else if (isBridgeStart && isNextBridge && cell instanceof MapBridgeCell){
+            else if (isNextBridge && cell instanceof MapBridgeCell){
                 cellIndex = ((MapBridgeCell)cell).getPair().getMapIndex();
                 player.addBridgeCard();
             }
@@ -112,6 +112,7 @@ public class RuleBook {
 
     private void playerFinished(Player player){
         player.addFinishScore(finishedPlayers.size());
+        player.setCurrPos(getMapArray().size()-1);
         finishedPlayers.add(player);
     }
 

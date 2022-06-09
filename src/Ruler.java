@@ -61,7 +61,7 @@ public class Ruler {
 
     public ArrayList<Player> getScoreSortedPlayers() {
         ArrayList<Player> result = new ArrayList<>(getPlayerList());
-        result.sort(Comparator.comparingInt(Player::getToolCardScore).reversed());
+        result.sort(Comparator.comparingInt(Player::getScore).reversed());
         return result;
     }
 }

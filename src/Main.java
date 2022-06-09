@@ -15,40 +15,10 @@ public class Main {
             System.exit(-1);
         }
 
-
-
         //play stage
         UIModel uiModel = new UIModel(ruler);
         UIViewController uiViewController = new UIViewController(uiModel);
         uiViewController.showGameFrame();
-
-
-        while(ruler.gameShouldEnd()){
-            int diceResult = RuleBook.diceRoll();
-            System.out.println("\nplayerid, dice, bridgeCard : " + ruler.currentPlayer.getPlayerId() + " " + diceResult + " " + ruler.currentPlayer.getBridgeCard());
-            String input = "";
-            boolean moveResult = false;
-            while(!moveResult){
-                // moveset length check
-                input = "";
-                while(!(input.length() == ruler.currentPlayerMvmtMax(diceResult))){
-                    System.out.println("input moveset : ");
-                    if(input.length() == 0){
-                        break;
-                    }
-                }
-                // valid move check
-                moveResult = ruler.inputPlayerMoveSet(diceResult, input.toLowerCase());
-            }
-            System.out.println("current position " + ruler.currentPlayer.getCurrPos());
-            ruler.nextPlayer();
-        }
-
-
-
-
-        //Print game result
-        new UIResultDialog(ruler.getScoreSortedPlayers()).run();
     }
 
     public void consoleTest(){
