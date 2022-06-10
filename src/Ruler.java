@@ -2,9 +2,9 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Ruler {
-    Player currentPlayer;
-    int playerCount;
-    RuleBook ruleBook;
+    public Player currentPlayer;
+    public int playerCount;
+    public RuleBook ruleBook;
 
     public Ruler(int playerCount, String filePath) throws IllegalArgumentException, FileNotFoundException {
         ruleBook = new RuleBook(playerCount, filePath);

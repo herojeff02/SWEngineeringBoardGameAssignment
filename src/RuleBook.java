@@ -24,12 +24,6 @@ public class RuleBook {
         int mvmtRange = player.getMvmtAbs(diceResult);
         char[] moves = moveSet.toUpperCase().toCharArray();
 
-        // wait a turn to deduct a bridge card
-        if(moves.length == 0){
-            player.deductBridgeCard();
-            return true;
-        }
-
         int cellIndex = player.getCurrPos();
         for(int i=0;i<=mvmtRange && i<moves.length;i++){
             String move = String.valueOf(moves[i]);
@@ -89,11 +83,6 @@ public class RuleBook {
 
         // award player tool points
         playerDidLandOnToolCell(playerIndex);
-//        MapCellBase arrivalCell = getCell(cellIndex);
-//        if(arrivalCell.getGeneralCellType().equals("GT")){
-//            player.addToolScore(arrivalCell.getCellType());
-//            ((MapCell)arrivalCell).removeTool();
-//        }
         return true;
     }
 

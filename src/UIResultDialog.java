@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class UIResultDialog extends JDialog{
@@ -24,6 +26,13 @@ public class UIResultDialog extends JDialog{
         pack();
         setVisible(true);
         setModal(true);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
     }
 
     public String resultStringBuilder(Player player, int rank){

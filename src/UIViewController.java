@@ -153,5 +153,6 @@ public class UIViewController extends JFrame {
         sidePanel.add(statusPanel);
         sidePanel.add(ioPanel);
 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

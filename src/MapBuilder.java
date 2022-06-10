@@ -7,7 +7,7 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class MapBuilder {
-    File file;
+    private final File file;
     private final ArrayList<MapCellBase> mapCellsArrayList;
     private final MapCellBase[][] mapCells2d;
     public int mapWidth, mapHeight;
@@ -147,7 +147,7 @@ public class MapBuilder {
         return mapCells2d;
     }
 
-    public void testPrint(){
+    void testPrint(){
         for(int i = 0; i< mapHeight; i++){
             for(int j = 0; j< mapWidth; j++){
                 if(mapCells2d[i][j] != null) {

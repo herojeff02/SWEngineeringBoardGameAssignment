@@ -78,6 +78,7 @@ public class UIPrerequisiteDialog extends JDialog{
 
         getContentPane().add(prerequisiteFrame);
         pack();
+
     }
     public String[] run(){
         setModal(true);

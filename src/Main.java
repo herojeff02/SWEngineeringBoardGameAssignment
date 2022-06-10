@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.FileNotFoundException;
 
 public class Main {
@@ -11,8 +12,9 @@ public class Main {
             Ruler ruler = null;
             try {
                 ruler = new Ruler(playerCount, preRequisiteResult[0]);
-            } catch (FileNotFoundException e) {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(null, e.getMessage(), "File Not Found", JOptionPane.ERROR_MESSAGE);
                 System.exit(-1);
             }
 

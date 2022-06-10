@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UIClassicViewController {
+    Ruler ruler = null;
     public UIClassicViewController(){
         //param stage
-        Ruler ruler = null;
         int playerCount = 0;
         Scanner scanner = new Scanner(System.in);
         while(playerCount < 2 || playerCount > 4){
@@ -45,7 +45,7 @@ public class UIClassicViewController {
                     ruler.currentPlayer.getPlayerId()
                     + " " +
                     (diceResult - ruler.currentPlayer.getBridgeCard()));
-            String input = "";
+            String input;
             scanner = new Scanner(System.in);
             boolean moveResult = false;
             while(!moveResult){
