@@ -20,8 +20,27 @@ public class UIClassicViewController {
         assert ruler != null;
 
         //play stage
+        int mapHeight = ruler.getMap2dDimension()[0];
+        int mapWidth = ruler.getMap2dDimension()[1];
+        MapCellBase[][] mapCells2d = ruler.getMap2d();
         while(!ruler.gameShouldEnd()){
             int diceResult = RuleBook.diceRoll();
+            for(int i = 0; i< mapHeight; i++){
+                for(int j = 0; j< mapWidth; j++){
+                    if(mapCells2d[i][j] != null) {
+                        System.out.printf("%3s", mapCells2d[i][j].getCellType());
+                    }
+                    else{
+                        if(j > 0 && mapCells2d[i][j-1] != null && mapCells2d[i][j-1].getCellType().equals("B")){
+                            System.out.print("  -");
+                        }
+                        else{
+                            System.out.print("   ");
+                        }
+                    }
+                }
+                System.out.println();
+            }
             System.out.println("\nplayerid, dice - bridgeCard : " +
                     ruler.currentPlayer.getPlayerId()
                     + " " +

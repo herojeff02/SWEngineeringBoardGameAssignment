@@ -22,7 +22,6 @@ public class MapBuilder {
         mapCells2d = new MapCellBase[mapHeight][mapWidth];
         assignMapCellsTo2d();
         createBridgePair();
-//        testPrint();
     }
 
     private void assignMapCellsTo2d() {

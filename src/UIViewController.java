@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class UIViewController extends JFrame {
@@ -53,7 +55,7 @@ public class UIViewController extends JFrame {
                     for(Player player : players){
                         if(map2d[i][j].getMapIndex() == player.getCurrPos()){
                             count++;
-                            jButton.setText(jButton.getText()+player.getPlayerId());
+                            jButton.setText(jButton.getText()+" "+player.getPlayerId());
                             jButton.setBackground(new Color(180,210,255));
                         }
                     }
@@ -62,8 +64,14 @@ public class UIViewController extends JFrame {
                     }
                 }
                 else{
-                    jButton = new JButton("");
-                    jButton.setBackground(new Color(100,100,100));
+                    if(j > 0 && map2d[i][j-1] != null &&map2d[i][j-1].getCellType().equals("B")){
+                        jButton = new JButton("===");
+                        jButton.setBackground(new Color(200, 150, 100));
+                    }
+                    else {
+                        jButton = new JButton("");
+                        jButton.setBackground(new Color(100, 100, 100));
+                    }
                 }
                 jButton.setEnabled(false);
                 jButton.setOpaque(true);
@@ -85,15 +93,17 @@ public class UIViewController extends JFrame {
         statusPanel.add(statusArea);
 
         JPanel ioPanel = new JPanel();
-        ioPanel.setLayout(new GridLayout(5,1,1,1));
+        ioPanel.setLayout(new GridLayout(6,1,1,1));
         String turnString = uiModel.getIOPanelTurnString();
         JTextArea turnArea = new JTextArea(turnString);
         turnArea.setOpaque(false);
         turnArea.setEditable(false);
         ioPanel.add(turnArea);
         JButton rollDiceButton = new JButton("Roll Dice");
+        JButton passButton = new JButton("Pass");
         rollDiceButton.addActionListener(e -> {
             rollDiceButton.setEnabled(false);
+            passButton.setEnabled(false);
             int diceRoll = RuleBook.diceRoll();
             int bridgeCard = ruler.currentPlayer.getBridgeCard();
             int maxMvmt = ruler.currentPlayer.getMvmtAbs(diceRoll);
@@ -127,7 +137,16 @@ public class UIViewController extends JFrame {
             sidePanel.revalidate();
             sidePanel.repaint();
         });
+        passButton.addActionListener(e -> {
+            uiModel.ruler.inputPlayerMoveSet(1, "");
+            uiModel.ruler.nextPlayer();
+            update(height, width, map2d, players);
+
+            sidePanel.revalidate();
+            sidePanel.repaint();
+        });
         ioPanel.add(rollDiceButton);
+        ioPanel.add(passButton);
         statusArea.setOpaque(false);
         statusArea.setEditable(false);
 
