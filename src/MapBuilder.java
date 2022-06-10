@@ -93,7 +93,7 @@ public class MapBuilder {
                 if(currLine == 0){ //first line
                     txt0 = parseSpecialConverter(txt.charAt(0));
                     txt1 = "PN";
-                    txt2 = parseConverter(txt.charAt(1));
+                    txt2 = parseConverter(txt.charAt(2));
                 }
                 else if(txt.startsWith("E")){ //last line
                     txt0 = parseSpecialConverter(txt.charAt(0));
@@ -102,8 +102,8 @@ public class MapBuilder {
                 }
                 else{
                     txt0 = parseConverter(txt.charAt(0));
-                    txt1 = parseConverter(txt.charAt(1));
-                    txt2 = parseConverter(txt.charAt(2));
+                    txt1 = parseConverter(txt.charAt(2));
+                    txt2 = parseConverter(txt.charAt(4));
                 }
 
                 if(txt0.equalsIgnoreCase("b")){

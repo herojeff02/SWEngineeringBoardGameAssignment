@@ -2,7 +2,7 @@ import java.io.FileNotFoundException;
 
 public class Main {
     public static void main(String[] args) {
-        boolean guiMode = false;
+        boolean guiMode = true;
         if (guiMode){
             //File path and player count
             String[] preRequisiteResult = new UIPrerequisiteDialog("default.map").run();
