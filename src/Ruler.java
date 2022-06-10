@@ -3,7 +3,6 @@ import java.util.*;
 
 public class Ruler {
     Player currentPlayer;
-    boolean finishedPlayerPresent = false;
     int playerCount;
     RuleBook ruleBook;
 
@@ -39,7 +38,6 @@ public class Ruler {
     public ArrayList<Player> getPlayerList(){
         return ruleBook.getPlayerList();
     }
-
     public ArrayList<MapCellBase> getMapArray(){
         return ruleBook.getMapArray();
     }

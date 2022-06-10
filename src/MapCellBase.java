@@ -19,13 +19,13 @@ public class MapCellBase {
 //    PN = Null Position
 
     String cellType;
-    String prevCellPos, nextCellPos;
+    String prevCellDir, nextCellDir;
     private int mapIndex;
     private int row, col;
-    public MapCellBase(String cellType, String prevCellPos, String nextCellPos, int mapIndex){
+    public MapCellBase(String cellType, String prevCellDir, String nextCellDir, int mapIndex){
         this.cellType = cellType;
-        this.prevCellPos = prevCellPos;
-        this.nextCellPos = nextCellPos;
+        this.prevCellDir = prevCellDir;
+        this.nextCellDir = nextCellDir;
         this.mapIndex = mapIndex;
     }
     public String getGeneralCellType(){

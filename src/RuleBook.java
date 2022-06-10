@@ -36,8 +36,8 @@ public class RuleBook {
             MapCellBase cell = getCell(cellIndex);
 
             boolean prevPossible = isFreeMovable();
-            boolean nextEqual = cell.nextCellPos.contains(move);
-            boolean prevEqual = cell.prevCellPos.contains(move);
+            boolean nextEqual = cell.nextCellDir.contains(move);
+            boolean prevEqual = cell.prevCellDir.contains(move);
             boolean isBridgeStart = cell.getCellType().equals("B");
             boolean isNextBridge = false;
             if(cell.getCellType().equals("B")){

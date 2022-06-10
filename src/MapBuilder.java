@@ -7,14 +7,12 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class MapBuilder {
-    private final String fileName;
     File file;
     private final ArrayList<MapCellBase> mapCellsArrayList;
     private final MapCellBase[][] mapCells2d;
     public int mapWidth, mapHeight;
-    private int mapLength;
+
     public MapBuilder(String fileName) throws FileNotFoundException {
-        this.fileName = fileName;
         file = new File(fileName);
         if(!file.exists()){
             throw new FileNotFoundException("Map file path invalid");
@@ -49,7 +47,7 @@ public class MapBuilder {
         for (MapCellBase a : mapCellsArrayList){
             a.setRow(row);
             a.setCol(col);
-            switch (a.nextCellPos) {
+            switch (a.nextCellDir) {
                 case "PL" -> col--;
                 case "PR" -> col++;
                 case "PU" -> row--;
@@ -117,7 +115,7 @@ public class MapBuilder {
                 }
                 currLine++;
             }
-            mapLength = currLine;
+            int mapLength = currLine;
         } catch (FileNotFoundException e) {
             System.out.println("Unknown File");
             System.exit(1);
