@@ -22,25 +22,25 @@ public class UIViewController extends JFrame {
         setVisible(true);
     }
 
-    public void update(int width, int height, MapCellBase[][] map2d, ArrayList<Player> players){
+    public void update(int height, int width, MapCellBase[][] map2d, ArrayList<Player> players){
         remove(mapPanel);
         remove(sidePanel);
-        drawMap(width, height, map2d, players);
-        drawPanel(width, height, map2d, players);
+        drawMap(height, width, map2d, players);
+        drawPanel(height, width, map2d, players);
         add(mapPanel);
         add(sidePanel, BorderLayout.EAST);
         revalidate();
         repaint();
     }
 
-    public void drawBoard(int width, int height, MapCellBase[][] map2d, ArrayList<Player> players) {
-        drawMap(width, height, map2d, players);
-        drawPanel(width, height, map2d, players);
+    public void drawBoard(int height, int width, MapCellBase[][] map2d, ArrayList<Player> players) {
+        drawMap(height, width, map2d, players);
+        drawPanel(height, width, map2d, players);
         showGameFrame();
     }
 
 
-    void drawMap(int width, int height, MapCellBase[][] map2d, ArrayList<Player> players){
+    void drawMap(int height, int width, MapCellBase[][] map2d, ArrayList<Player> players){
         mapPanel = new JPanel();
 
         mapPanel.setLayout(new GridLayout(height, width, 2, 2));
@@ -49,23 +49,30 @@ public class UIViewController extends JFrame {
                 JButton jButton;
                 if(map2d[i][j] != null) {
                     jButton = new JButton(map2d[i][j].getCellType());
-                    jButton.setLayout(new BorderLayout());
+                    int count = 0;
                     for(Player player : players){
                         if(map2d[i][j].getMapIndex() == player.getCurrPos()){
+                            count++;
                             jButton.setText(jButton.getText()+player.getPlayerId());
+                            jButton.setBackground(new Color(180,210,255));
                         }
+                    }
+                    if (count >= 2){
+                        jButton.setBackground(new Color(200,180,255));
                     }
                 }
                 else{
                     jButton = new JButton("");
+                    jButton.setBackground(new Color(100,100,100));
                 }
                 jButton.setEnabled(false);
+                jButton.setOpaque(true);
                 mapPanel.add(jButton);
             }
         }
     }
 
-    void drawPanel(int width, int height, MapCellBase[][] map2d, ArrayList<Player> players){
+    void drawPanel(int height, int width, MapCellBase[][] map2d, ArrayList<Player> players){
         sidePanel = new JPanel();
         sidePanel.setLayout(new GridLayout(2, 1, 0, 0));
 
@@ -109,7 +116,7 @@ public class UIViewController extends JFrame {
                     }
                     uiModel.ruler.nextPlayer();
                     moveSet.setText("");
-                    update(width, height, map2d, players);
+                    update(height, width, map2d, players);
                 }
                 else{
                     moveSet.setText("");

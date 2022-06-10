@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -40,7 +41,12 @@ public class Main {
         //play stage
         while(!ruler.gameShouldEnd()){
             int diceResult = RuleBook.diceRoll();
-            System.out.println("\nplayerid, dice, bridgeCard : " + ruler.currentPlayer.getPlayerId() + " " + diceResult + " " + ruler.currentPlayer.getBridgeCard());
+            System.out.println("\nplayerid, dice, bridgeCard : " +
+                    ruler.currentPlayer.getPlayerId()
+                    + " " +
+                    diceResult
+                    + " " +
+                    ruler.currentPlayer.getBridgeCard());
             String input = "";
             scanner = new Scanner(System.in);
             boolean moveResult = false;
@@ -57,12 +63,16 @@ public class Main {
                 // valid move check
                 moveResult = ruler.inputPlayerMoveSet(diceResult, input.toLowerCase());
             }
-            System.out.println("current position " + ruler.currentPlayer.getCurrPos());
+            System.out.println("new position " + ruler.currentPlayer.getCurrPos());
             ruler.nextPlayer();
         }
 
         //game result stage
-        ruler.getScoreSortedPlayers();
+        ArrayList<Player> list = ruler.getScoreSortedPlayers();
+        for(int i=0;i<list.size();i++){
+            list.get(i).
+        }
+
 
         System.out.println("end");
     }

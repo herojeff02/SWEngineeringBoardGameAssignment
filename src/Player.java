@@ -3,7 +3,7 @@ public class Player {
     private String toolCardString = "";
     private int finishScore = 0;
     private final int playerId;
-    private int currPosition = 58;
+    private int currPosition = 0;
 
     public Player(int playerId){
         this.playerId = playerId;
